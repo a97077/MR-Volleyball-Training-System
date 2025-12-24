@@ -1,3 +1,4 @@
+//คโตรฐlยÜพน
 using UnityEngine;
 
 public class XRHandPalmFollower : MonoBehaviour

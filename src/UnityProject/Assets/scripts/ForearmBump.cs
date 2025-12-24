@@ -1,3 +1,4 @@
+//§‚¡u∏Iº≤æπ
 using UnityEngine;
 
 public class ForearmBump : MonoBehaviour
