@@ -74,8 +74,6 @@ Meta XR SDK
 五、系統架構（System Architecture）
 以下為本專案的簡化系統架構：
 
-csharp
-複製程式碼
 [Hand Tracking]
         ↓
 [HandVelocity / HandFollower]
@@ -85,6 +83,7 @@ csharp
 [Rigidbody Physics]
         ↓
 [Ball Feedback]
+
 核心模組說明：
 HandFollower / XRForearmFollower
 負責手部與前臂位置追蹤
