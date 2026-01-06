@@ -1,154 +1,138 @@
-# 🏐 Volleyball Hit  
-### MR Volleyball Training System (Mixed Reality)
+# MR Volleyball Hit  
+### 混合實境排球訓練系統（Meta Quest 3）
 
-**Volleyball Hit** 是一款基於 **Mixed Reality (MR)** 的排球訓練體驗遊戲。  
-玩家配戴 **Meta Quest 3**，透過真實揮手動作擊球，在現實空間中完成排球扣球訓練。
-
-> 🎯 核心目標：驗證「MR 手部追蹤 + 揮手擊球 + 遊戲流程」的可行性。
+一款讓玩家在真實空間中進行排球擊球訓練的沉浸式體感遊戲。
 
 ---
 
-## 🎮 一句話講完在玩什麼（Pitch）
-一款讓你 **用真實揮手動作，在 MR 世界中打排球扣球** 的沉浸式訓練遊戲。
+## 一、專案簡介（Project Overview）
+
+**MR Volleyball Hit** 是一款基於 Meta Quest 3 的混合實境排球體驗，  
+玩家不需使用控制器，僅透過雙手動作即可完成接球、托球與扣球等排球動作，  
+在真實空間中感受直覺且具物理回饋的排球互動。
 
 ---
 
-## 🧩 專案定位（本課作業重點）
-本專案屬於 **Technical Spike + MVP（Minimum Viable Product）**：
+## 二、系統需求（System Requirements）
 
-- 不追求美術品質
-- 不追求完整關卡
-- 重點放在：
-  - MR 互動是否可行
-  - 程式邏輯是否完整
-  - 遊戲流程是否能跑完一輪
+- 裝置：Meta Quest 3  
+- 作業系統：Android（Quest OS）  
+- 開發環境：
+  - Unity（建議 LTS 版本）
+  - Meta XR SDK
+- 支援功能：
+  - Hand Tracking
+  - Passthrough (Mixed Reality)
 
 ---
 
-## 🔁 遊戲流程
-Start → Play → Game Over → Restart
+## 三、安裝與執行方式（Installation）
+
+### 1️⃣ 安裝 APK（玩家）
+
+1. 下載 APK 檔案  
+   👉 **APK 下載連結**（請替換為實際連結）  
+https://drive.google.com/drive/folders/1RV5gtxnsPCoCWr9eWGgfTjT_ptfUi-Yv?usp=sharing
 
 yaml
 複製程式碼
 
-- **Start**：進入 MR 排球訓練場
-- **Play**：揮手擊球、判定命中與得分
-- **Game Over**：完成一輪訓練
-- **Restart**：重新開始
-
-✔ 已完成 **Greybox 白模可試玩版本**
+2. 使用 SideQuest 或 adb 將 APK 安裝至 Meta Quest 3  
+3. 戴上頭盔後，於應用程式清單中啟動遊戲
 
 ---
 
-## 🕹 操作方式（Controls）
-| 動作 | 說明 |
-|----|----|
-| 揮手 | 擊球 |
-| 揮動速度 | 影響球速 |
-| 手部追蹤 | MR 核心互動方式 |
+### 2️⃣ 編譯原始碼（開發者）
 
----
+1. Clone 本專案：
+```bash
+git clone https://github.com/a97077/MR-Volleyball-Training-System
+使用 Unity Hub 開啟：
 
-## 🏗 系統架構
-XR Hand Tracking
-↓
-HandVelocity / ForearmBump
-↓
-VolleyballHit (Collision & Force)
-↓
-Score / Game State Manager
-
-yaml
+bash
 複製程式碼
+/src/UnityProject
+確認已安裝：
 
-📄 詳細設計文件：
-- System Architecture  
-  👉 `docs/SDD/SDD_SystemArchitecture.md`
-- Module Design  
-  👉 `docs/SDD/SDD_ModuleDesign.md`
+Meta XR SDK
 
----
+啟用 Hand Tracking 與 Passthrough
 
-## 📁 專案結構說明
-MR-Volleyball-Training-System/
-├─ README.md ← 本文件
-├─ docs/
-│ ├─ MVP/ ← MVP 設計與驗證說明
-│ ├─ SDD/ ← 系統與模組設計文件
-│ ├─ TechnicalSpike/ ← 技術穿刺驗證
-│ └─ UserStory/ ← 使用者故事
-└─ src/
-└─ UnityProject/ ← Unity 專案原始碼
+切換平台為 Android，Build 並部署至 Meta Quest 3
 
-yaml
+四、操作說明（How to Play）
+操作方式（無控制器）
+動作	說明
+接球（Bump）	以雙手前臂區域接觸排球
+托球（Set）	雙手向上托舉動作
+扣球（Spike）	手臂快速揮動擊打排球
+
+系統會根據 手部位置、方向與揮動速度 判斷擊球方式
+
+不同動作將產生不同的球速與反彈角度
+
+五、系統架構（System Architecture）
+以下為本專案的簡化系統架構：
+
+csharp
 複製程式碼
+[Hand Tracking]
+        ↓
+[HandVelocity / HandFollower]
+        ↓
+[VolleyballHit Controller]
+        ↓
+[Rigidbody Physics]
+        ↓
+[Ball Feedback]
+核心模組說明：
+HandFollower / XRForearmFollower
+負責手部與前臂位置追蹤
 
----
+HandVelocity
+計算揮動速度，作為擊球力道依據
 
-## 🧠 MVP 與 SDD 的關係說明（老師會看）
-- **SDD（Software Design Document）**  
-  描述「系統應該如何設計」
+VolleyballHit
+判斷擊球類型並施加對應物理反饋
 
-- **MVP（Minimum Viable Product）**  
-  實際實作並驗證「這樣的設計是否可行」
+ServeTrainer
+控制訓練流程與球生成邏輯
 
-📌 本專案中：
-- MVP 的每個核心功能（擊球、速度判定、流程）
-- 都能在 SDD 文件中找到對應模組說明
+六、技術驗證（Technical Spike）
+本專案已完成以下技術驗證：
 
----
+手掌與手臂碰撞體與排球的角度反彈行為
 
-## 🔬 Technical Spike（技術穿刺）
-本專案驗證以下技術可行性：
+手部揮動速度轉換為合理的球速
 
-- MR 手部追蹤是否足以作為擊球輸入
-- 揮手速度 → 球速映射是否合理
-- 即時碰撞判定在 MR 中的穩定性
+MR 空間中虛擬物件與真實空間的對齊
 
-📄 詳見：
-- `docs/TechnicalSpike/`
+詳細內容請參考：
 
----
+docs/TechnicalSpike/Technical_Spike_Spec.md
 
-## 🚀 Build & Run（工程可重現性）
-### 環境需求
-- Unity（建議 LTS 版本）
-- Meta Quest 3
-- Android Build Support
+七、展示資源（Media）
+🎬 Gameplay 影片
+👉https://drive.google.com/drive/folders/1RV5gtxnsPCoCWr9eWGgfTjT_ptfUi-Yv?usp=sharing
 
-### Build Steps
-1. Clone 本 Repo
-2. 開啟 `src/UnityProject`
-3. 設定 XR 與 Android Build
-4. Build APK
-5. 安裝至 Quest 3
+🖼️ 宣傳圖片
+👉 docs/media/volleyball_hit_promo.png
 
----
+八、專案文件（Documentation）
+📄 MVP 設計
 
-## 📦 APK 下載（Demo 用）
-👉 **（請補上實際連結）**
-- Google Drive / itch.io
+docs/MVP/MVP_Design.md
 
----
+📄 系統設計文件（SDD）
 
-## 🎥 Gameplay Trailer（60–90 秒）
-👉 **（請補上實際影片連結）**
-- 展示 Start → Play → Game Over → Restart
-- 強調 MR 揮手擊球互動
+docs/SDD/SDD_SystemArchitecture.md
 
----
+docs/SDD/SDD_ModuleDesign.md
 
-## 🖼 宣傳圖片
-（由 AI 或簡單設計製作，用於介紹專案）
+九、專案狀態（Project Status）
+✅ MVP 可完整遊玩一輪（Start → Play → Game Over → Restart）
 
----
+✅ 核心 MR 互動功能完成
 
-## 📌 課堂評分對應說明
-- ✅ Product Quality：可玩、穩定、MR 互動成立
-- ✅ Engineering：可 clone、可 build、commit 有意義
-- ✅ Docs：README + SDD + MVP 完整
-- ✅ Demo：可現場配戴頭盔展示
+🚧 後續可擴充更多訓練模式與評分機制
 
----
- 
-MR Volleyball Training System  
