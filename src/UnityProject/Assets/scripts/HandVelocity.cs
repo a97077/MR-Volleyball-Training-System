@@ -1,31 +1,25 @@
-//手腕速度感測
-
 using UnityEngine;
+using System.Collections.Generic;
 
 public class HandVelocity : MonoBehaviour
 {
     public Vector3 Velocity { get; private set; }
+    private Vector3 lastPos;
+    private Queue<Vector3> velocitySamples = new Queue<Vector3>();
+    private int maxSamples = 5;
 
-    Vector3 lastPos;
-
-    void Start()
-    {
-        lastPos = transform.position;
-    }
+    void Start() => lastPos = transform.position;
 
     void FixedUpdate()
     {
-        Velocity = (transform.position - lastPos) / Time.fixedDeltaTime;
+        Vector3 currentVelocity = (transform.position - lastPos) / Time.fixedDeltaTime;
         lastPos = transform.position;
-    }
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green; // 掌心平面
-        Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(Vector3.zero, new Vector3(0.09f, 0.02f, 0.10f));
 
-        Gizmos.color = Color.blue; // 掌心方向
-        Gizmos.DrawRay(Vector3.zero, Vector3.forward * 0.12f);
-    }
+        velocitySamples.Enqueue(currentVelocity);
+        if (velocitySamples.Count > maxSamples) velocitySamples.Dequeue();
 
+        Vector3 sum = Vector3.zero;
+        foreach (var v in velocitySamples) sum += v;
+        Velocity = sum / velocitySamples.Count;
+    }
 }

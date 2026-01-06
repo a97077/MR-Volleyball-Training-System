@@ -1,34 +1,72 @@
-//åµæ¸¬æ’çƒèˆ‡æ‰‹è…•æ‰“æ“Š
-
 using UnityEngine;
 
 public class VolleyballHit : MonoBehaviour
 {
-    public float hitMultiplier = 0.7f;
+    [Header("¥´À»¤O¶q³]©w")]
+    [Tooltip("°òÂ¦¤O¶q­¿²v¡A¼Æ­È¶V°ª²y³t¶V§Ö")]
+    public float hitPower = 2.5f;      // ±q 1.8 ´£¤É¨ì 2.5
 
-    Rigidbody rb;
+    [Tooltip("³t«×·P¥[Åv (1.0¬°½u©Ê, 1.2~1.5 ·|Åı­«¦©§ó¦³·P)")]
+    public float speedSensitivity = 1.3f;
+
+    [Tooltip("²y³t¤W­­ (Â¾·~±Æ²y¦©²y¥i¹F 30m/s ¥H¤W)")]
+    public float maxBallSpeed = 45f;   // ´£°ª¤W­­Åı²y¼Q±o¥X¥h
+
+    [Header("¤è¦V»P¤Ï¼u")]
+    [Range(0, 1)]
+    public float directionForwardBias = 0.7f; // §ó¦h¨Ì¿à´x¤ß¤è¦V
+
+    private Rigidbody rb;
+    private float cooldown = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        // ¨Ï¥Î³sÄò¸I¼²°»´ú¡A¨¾¤î°ª³t²y¬ï³zÀğ¾À
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void Update() => cooldown -= Time.deltaTime;
+
+    private void OnTriggerEnter(Collider other)
     {
-        HandVelocity hand = collision.collider.GetComponent<HandVelocity>();
+        if (cooldown > 0) return;
+
+        HandVelocity hand = other.GetComponent<HandVelocity>(); // ¨ú±o¤â³¡³t«×²Õ¥ó
         if (hand == null) return;
 
-        float maxHandSpeed = 2.2f;
-        Vector3 handVel = Vector3.ClampMagnitude(hand.Velocity, maxHandSpeed);
+        // ÀË¬d¤â³t¬O§_¹F¨ìÀ»²yªùÂe
+        if (hand.Velocity.magnitude < 0.8f) return;
 
-        if (handVel.magnitude < 0.4f) return;
+        ApplySuperHit(hand);
+    }
 
-        float mappedSpeed = Mathf.Sqrt(handVel.magnitude);
+    void ApplySuperHit(HandVelocity hand)
+    {
+        cooldown = 0.15f; // ÁYµu§N«o®É¶¡¡AÅı¤ÏÀ³§ó§Y®É
 
+        // 1. ¹ı©³²M°£²y¥Ø«eªººD©Ê
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        rb.AddForce(handVel.normalized * mappedSpeed * hitMultiplier,
-                    ForceMode.VelocityChange);
+        // 2. ­pºâ¤è¦V¡G²V¦X¤â¶Õ¤è¦V»P´x¤ß«e¤èªº¦V¶q
+        Vector3 palmDir = hand.transform.forward;
+        Vector3 hitDir = Vector3.Lerp(hand.Velocity.normalized, palmDir, directionForwardBias).normalized;
+
+        // 3. ÃöÁä§ï°Ê¡G«D½u©Ê³t«×­pºâ
+        // ¨Ï¥Î Mathf.Pow Åı¡u§Ö¤â³t¡v²£¥Íªº²y³t»·¤j©ó¡uºC¤â³t¡v
+        float rawHandSpeed = hand.Velocity.magnitude;
+        float calculatedSpeed = Mathf.Pow(rawHandSpeed, speedSensitivity) * hitPower;
+
+        // ­­¨î¦b¦X²z½d³ò¤º
+        float finalSpeed = Mathf.Clamp(calculatedSpeed, 8f, maxBallSpeed);
+
+        // 4. ¬I¥[Àş¶¡½Ä¶q (VelocityChange ·|©¿²¤½è¶q¡A¤â·P³Ìª½±µ)
+        rb.AddForce(hitDir * finalSpeed, ForceMode.VelocityChange);
+
+        // 5. ¼W¥[±j¯Pªº±ÛÂà (Topspin)¡AÅı²y¤U¼Y§ó©úÅã¡A§ó¦³¦©²y·P
+        rb.AddTorque(hand.transform.right * finalSpeed, ForceMode.Impulse);
+
+        Debug.Log($"±j¤O¦©²y¡I¤â³t: {rawHandSpeed:F1}, ³Ì²×¿é¥X²y³t: {finalSpeed:F1}");
     }
 }

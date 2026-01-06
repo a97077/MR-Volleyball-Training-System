@@ -1,5 +1,3 @@
-//手臂追蹤
-
 using UnityEngine;
 
 public class XRForearmFollower : MonoBehaviour
@@ -7,7 +5,7 @@ public class XRForearmFollower : MonoBehaviour
     public Transform xrHandWrist;
 
     // 前臂偏移（往手肘方向）
-    public Vector3 forearmOffset = new Vector3(0f, -0.12f, 0.03f);
+    public Vector3 forearmOffset = new Vector3(0.05f, -0.15f, 0.03f);
 
     void LateUpdate()
     {
