@@ -1,16 +1,13 @@
 # MR Volleyball Hit  
 ### 混合實境排球訓練系統（Meta Quest 3）
 
-是一款基於 Meta Quest 3 的混合實境排球體驗，玩家不需使用控制器，僅透過雙手動作
-即可完成接球、托球與扣球等排球動作，在真實空間中感受直覺且具物理回饋的排球互動。
-
 ---
 
 ## 一、專案簡介（Project Overview）
 
 **MR Volleyball Hit** 是一款基於 Meta Quest 3 的混合實境排球體驗，  
-玩家不需使用控制器，僅透過雙手動作即可完成接球、托球與扣球等排球動作，  
-在真實空間中感受直覺且具物理回饋的排球互動。
+玩家不需使用控制器，僅透過雙手動作即可完成接球與扣球等排球動作，在真
+實空間中感受直覺且具物理回饋的排球互動。
 
 ---
 
@@ -65,7 +62,6 @@ Meta XR SDK
 操作方式（無控制器）
 動作	說明
 接球（Bump）	以雙手前臂區域接觸排球
-托球（Set）	雙手向上托舉動作
 扣球（Spike）	手臂快速揮動擊打排球
 
 系統會根據 手部位置、方向與揮動速度 判斷擊球方式
@@ -130,7 +126,7 @@ docs/SDD/SDD_SystemArchitecture.md
 docs/SDD/SDD_ModuleDesign.md
 
 九、專案狀態（Project Status）
-✅ MVP 可完整遊玩一輪（Start → Play → Game Over → Restart）
+✅ MVP 可完整遊玩一輪（ Play ）
 
 ✅ 核心 MR 互動功能完成
 
