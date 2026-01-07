@@ -71,37 +71,32 @@ Meta XR SDK
 五、系統架構（System Architecture）
 以下為本專案的簡化系統架構：
 
-[Hand Tracking]
+[Hand Tracking] （手部追蹤）
         ↓
-[HandVelocity / HandFollower]
+[HandVelocity / HandFollower] （手部速度與位置追蹤）
         ↓
-[VolleyballHit Controller]
+[VolleyballHit Controller] （擊球判斷與控制）
         ↓
-[Rigidbody Physics]
+[Rigidbody Physics] （Unity 物理引擎）
         ↓
-[Ball Feedback]
+[Ball Feedback] （球的回饋結果）
 
-核心模組說明：
-HandFollower / XRForearmFollower
-負責手部與前臂位置追蹤
+模組說明（Module Description）
 
-HandVelocity
-計算揮動速度，作為擊球力道依據
+Hand Tracking（手部追蹤）
+由 Meta Quest 3 提供即時手部關節與手掌位置資料。
 
-VolleyballHit
-判斷擊球類型並施加對應物理反饋
+HandVelocity / HandFollower（手部速度與位置追蹤）
+計算手臂揮動速度與方向，並同步手部位置至虛擬世界。
 
-ServeTrainer
-控制訓練流程與球生成邏輯
+VolleyballHit Controller（擊球判斷與控制）
+根據手部速度與碰撞角度，判斷是否觸發接球或扣球行為。
 
-六、技術驗證（Technical Spike）
-本專案已完成以下技術驗證：
+Rigidbody Physics（Unity 物理引擎）
+負責排球的物理運動，包括重力、彈性與碰撞反應。
 
-手掌與手臂碰撞體與排球的角度反彈行為
-
-手部揮動速度轉換為合理的球速
-
-MR 空間中虛擬物件與真實空間的對齊
+Ball Feedback（球的回饋結果）
+呈現擊球後的球速、飛行方向與反彈角度，提供即時視覺回饋。
 
 詳細內容請參考：
 
