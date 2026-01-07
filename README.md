@@ -1,7 +1,8 @@
 # MR Volleyball Hit  
 ### 混合實境排球訓練系統（Meta Quest 3）
 
-一款讓玩家在真實空間中進行排球擊球訓練的沉浸式體感遊戲。
+是一款基於 Meta Quest 3 的混合實境排球體驗，玩家不需使用控制器，僅透過雙手動作
+即可完成接球、托球與扣球等排球動作，在真實空間中感受直覺且具物理回饋的排球互動。
 
 ---
 
@@ -50,7 +51,7 @@ git clone https://github.com/a97077/MR-Volleyball-Training-System
 使用 Unity Hub 開啟：
 
 bash
-複製程式碼
+
 /src/UnityProject
 確認已安裝：
 
